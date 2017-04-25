@@ -16,13 +16,64 @@
 
 package servlet;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import model.Account;
 
 /**
  * Provides an Account Balance and Basic Withdrawal/Deposit Operations
  */
 @WebServlet("/account")
 public class AccountServlet extends HttpServlet {
+    
+    Account acc = new Account();
+ 
+    
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+//        try (PrintWriter out = response.getWriter()) {
+//            out.println("Hello valid user!");
+//        } catch (IOException ex) {
+//            System.err.println("Something Went Wrong: " + ex.getMessage());
+//        }
+         
+          response.setHeader("Cache-Control", "private, no-store, nocache,must-revalidate");
+          response.setHeader("Pragma", "no-cache");
+          response.setDateHeader("Expires", 0);
+          double result = acc.getBalance();
+          String balance = String.valueOf(result);
+          System.out.println(result);
+          //response.setContentType("text/html;charset=UTF-8");
+          response.getWriter().write(balance);
+          //response.getWriter().write((int) result);
+
+    }
+    
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+
+//        try (PrintWriter out = response.getWriter()) {
+//            out.println("Hello valid editor!");
+//        } catch (IOException ex) {
+//            System.err.println("Something Went Wrong: " + ex.getMessage());
+//        }
+         System.out.println("welcome to servlet");
+         acc.deposit(Double.parseDouble(request.getParameter("deposit")));
+         String str = request.getParameter("withdraw");
+         System.out.println(str);
+         acc.withdraw(Double.parseDouble(request.getParameter("withdraw")));
+         
+         String status = request.getParameter("close");
+         acc.close(status);
+         //acc.deposit(Double.parseDouble(request.getParameter("deposit")));
+         
+    }
     
 }

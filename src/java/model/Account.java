@@ -27,8 +27,10 @@ public class Account {
      * Returns the current total balance of the account
      * @return - the balance
      */
+     double currentbalance;
+    
     public double getBalance() {
-        return -999;
+        return currentbalance;
     }
     
     /**
@@ -36,7 +38,7 @@ public class Account {
      * @param cash - the cash to deposit
      */
     public void deposit(double cash) {
-        
+       currentbalance = currentbalance+cash;
     }
     
     /**
@@ -44,13 +46,18 @@ public class Account {
      * @param cash - the cash to withdraw
      */
     public void withdraw(double cash) {
-    
+         currentbalance = currentbalance-cash;
+         System.out.println(currentbalance);
     }
     
     /**
      * Deducts all cash from the total balance of the account
      */
-    public void close() {
+    public void close(String status) {
+        
+        if (status.equals("true")){
+            currentbalance = 0;
+        }
         
     }
 }
